@@ -2,7 +2,6 @@ package routes
 
 import (
 	"expense-tracker/handlers"
-	"expense-tracker/middleware"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

@@ -6,7 +6,6 @@ import (
 	"expense-tracker/routes"
 	"log"
 	"math/rand"
-	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +25,9 @@ var colors = []string{
 func main() {
 	port := "8080"
 	env := "development"
+
+	gin.SetMode(gin.ReleaseMode)
+
 	r := gin.Default()
 	db, err := config.InitDB() // Initialize the database connection
 	if err != nil {
@@ -43,15 +45,14 @@ func main() {
 
 	color := colors[rng.Intn(len(colors))]
 
-	r.Run()
-
+	// Print the log messages just before starting the server
 	log.Println(color + "=================================" + colorReset)
 	log.Printf("%s======= ENV: %s =======%s", color, env, colorReset)
 	log.Printf("%s🚀 App listening on the port %s%s", color, port, colorReset)
 	log.Println(color + "=================================" + colorReset)
 
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
+	// Start the server
+	if err := r.Run(":" + port); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
-
 }

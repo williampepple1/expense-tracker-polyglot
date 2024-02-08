@@ -7,16 +7,33 @@ import (
 	"gorm.io/gorm"
 )
 
+type ExpenseType string
+
+const (
+	Food           ExpenseType = "food"
+	Utility        ExpenseType = "utility"
+	Transportation ExpenseType = "transportation"
+	Groceries      ExpenseType = "groceries"
+	Subscriptions  ExpenseType = "subscriptions"
+	Entertainment  ExpenseType = "entertainment"
+	Miscellaneous  ExpenseType = "miscellaneous"
+)
+
 type Expense struct {
 	ID          uuid.UUID `gorm:"type:uuid;primaryKey"`
 	Description string
 	Amount      float64
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	UserID      uuid.UUID // Foreign key for User
+	Type        ExpenseType `gorm:"type:varchar(20);not null;default:'utility'" json:"type"`
+	User        User        `gorm:"foreignkey:UserID"`
+	UserID      uuid.UUID   // Foreign key for User
 }
 
 func (base *Expense) BeforeCreate(tx *gorm.DB) (err error) {
 	base.ID = uuid.New()
+	if base.Type == "" {
+		base.Type = Miscellaneous
+	}
 	return
 }

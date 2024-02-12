@@ -36,6 +36,7 @@ func main() {
 
 	// Migrate the schema
 	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Expense{})
 
 	// Set up routes
 	routes.SetupRoutes(r, db)

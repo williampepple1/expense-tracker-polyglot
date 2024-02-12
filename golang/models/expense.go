@@ -21,12 +21,11 @@ const (
 
 type Expense struct {
 	ID          uuid.UUID `gorm:"type:uuid;primaryKey"`
-	Description string
-	Amount      float64
+	Description string    `json:"description"`
+	Amount      float64   `json:"amount"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	Type        ExpenseType `gorm:"type:varchar(20);not null;default:'utility'" json:"type"`
-	User        User        `gorm:"foreignkey:UserID"`
 	UserID      uuid.UUID   // Foreign key for User
 }
 

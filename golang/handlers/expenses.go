@@ -132,10 +132,6 @@ func CreateExpense(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 
-		expense.User = user // Assuming your Expense struct has a User field to hold this data
-
-		// Now expense should have the User data included
-
 		c.JSON(http.StatusCreated, expense)
 	}
 }
